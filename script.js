@@ -2,6 +2,7 @@
 const pad = 720;
 let size = 16;
 const body = document.querySelector('body');
+const rainbow = document.querySelector('.rainbow');
 const clrbtn = document.querySelector('.clear');
 const size_range = document.querySelector('#size-range');
 const srlabel = document.querySelector('#srlabel');
@@ -24,18 +25,45 @@ function createDivs() {
     }
 }
 
+function switchColor(e) {
+    switch (this.classList[0]) {
+        case 'rainbow':
+            pixels.forEach(element => {
+                element.removeEventListener('mouseover', changeColor);
+                element.addEventListener('mouseover', changeRainbowColor);
+            });
+            break;
+        default:
+            break;
+    }
+}
+
 function changeColor(e) {
     e.stopPropagation();
     this.style.backgroundColor = 'black';
 }
 
-function clearColor(e) {
+function changeRainbowColor(e) {
+    e.stopPropagation();
+    this.style.backgroundColor = getRandomColor();
+}
+
+function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function clearColor() {
     pixels.forEach(element => {
         element.style.backgroundColor = 'transparent';
     });
 }
 
-function changeSize(e) {
+function changeSize() {
     size = this.value;
     srlabel.textContent = `size: ${size}`;
     pixels.forEach(element => {
@@ -56,5 +84,6 @@ container.style.flexWrap = 'wrap';
 createDivs();
 body.appendChild(container);
 
+rainbow.addEventListener('click', switchColor);
 clrbtn.addEventListener('click', clearColor);
 size_range.addEventListener('change', changeSize);
