@@ -1,20 +1,33 @@
+/* initialize */
+const pad = 720;
+let size = 16;
+const body = document.querySelector('body');
+const clrbtn = document.querySelector('.clear');
+const container = document.createElement('div');
+let pixels = [];
+
+
+/* functions */
 function changeColor(e) {
     e.stopPropagation();
     this.style.backgroundColor = 'black';
 }
 
-const pad = 720;
-let size = 16;
+function clearColor(e) {
+    pixels.forEach(element => {
+        element.style.backgroundColor = 'transparent';
+    });
+}
 
-const body = document.querySelector('body');
-const container = document.createElement('div');
-let pixels = [];
 
+/* container */
 container.classList.add('container');
 container.style.width = container.style.height = `${pad}px`;
 container.style.display = 'flex';
 container.style.flexWrap = 'wrap';
 
+
+/* create square divs inside the container */
 for (let i=0; i<size; i++) {
     for (let j=0; j<size; j++) {
         pixels[i*size+j] = document.createElement('div');
@@ -28,3 +41,7 @@ for (let i=0; i<size; i++) {
 }
 
 body.appendChild(container);
+
+
+/* clear button */
+clrbtn.addEventListener('click', clearColor);
