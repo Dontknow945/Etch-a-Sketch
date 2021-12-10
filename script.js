@@ -1,7 +1,9 @@
 /* initialize */
 const pad = 720;
 let size = 16;
+let color = 'black';
 const body = document.querySelector('body');
+const normal = document.querySelector('.normal');
 const rainbow = document.querySelector('.rainbow');
 const clrbtn = document.querySelector('.clear');
 const size_range = document.querySelector('#size-range');
@@ -26,26 +28,27 @@ function createDivs() {
 }
 
 function switchColor(e) {
-    switch (this.classList[0]) {
+    switch (color) {
         case 'rainbow':
-            pixels.forEach(element => {
-                element.removeEventListener('mouseover', changeColor);
-                element.addEventListener('mouseover', changeRainbowColor);
-            });
-            break;
+            return getRandomColor();
+        case 'black':
+            return 'black';
         default:
-            break;
+            return 'black';
     }
 }
 
 function changeColor(e) {
     e.stopPropagation();
-    this.style.backgroundColor = 'black';
+    this.style.backgroundColor = switchColor();
 }
 
-function changeRainbowColor(e) {
-    e.stopPropagation();
-    this.style.backgroundColor = getRandomColor();
+function changeNormalColor() {
+    color = 'black';
+}
+
+function changeRainbowColor() {
+    color = 'rainbow';
 }
 
 function getRandomColor() {
@@ -84,6 +87,7 @@ container.style.flexWrap = 'wrap';
 createDivs();
 body.appendChild(container);
 
-rainbow.addEventListener('click', switchColor);
+normal.addEventListener('click', changeNormalColor);
+rainbow.addEventListener('click', changeRainbowColor);
 clrbtn.addEventListener('click', clearColor);
 size_range.addEventListener('change', changeSize);
