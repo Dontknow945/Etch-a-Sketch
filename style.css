@@ -1,0 +1,12 @@
+.container {
+    width: 720px;
+    height: 720px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.squares {
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px black solid;
+}

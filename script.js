@@ -20,9 +20,7 @@ function createDivs() {
         for (let j=0; j<size; j++) {
             pixels[i*size+j] = document.createElement('div');
             pixels[i*size+j].style.width = pixels[i*size+j].style.height = `${pad/size}px`;
-            pixels[i*size+j].style.display = 'inline-block';
-            pixels[i*size+j].style.boxSizing = 'border-box';
-            pixels[i*size+j].style.border = '1px black solid';
+            pixels[i*size+j].classList.add('squares');
             pixels[i*size+j].id = i*size+j;
             container.appendChild(pixels[i*size+j]);
             pixels[i*size+j].addEventListener('mouseover', changeColor);
@@ -31,16 +29,16 @@ function createDivs() {
     }
 }
 
-function switchColor(e) {
+function switchColor(square) {
     switch (color) {
         case 'rainbow':
-            colors[e.id] = getRandomColor();
-            return colors[e.id];
+            colors[square.id] = getRandomColor();
+            return colors[square.id];
         case 'black':
-            colors[e.id] = 'rgb(0, 0, 0)';
+            colors[square.id] = 'rgb(0, 0, 0)';
             return 'black';
         case 'shadow':
-            return getDarkerColor(e);
+            return getDarkerColor(square);
         default:
             return 'black';
     }
@@ -59,9 +57,9 @@ function getRandomColor() {
     return result;
 }
 
-function getDarkerColor(e) {
-    originColor = colors[e.id];
-    bgColor = e.style.backgroundColor;
+function getDarkerColor(square) {
+    originColor = colors[square.id];
+    bgColor = square.style.backgroundColor;
     let re = /^rgb/;
     if (!re.test(bgColor)) {
         return bgColor;
@@ -101,9 +99,6 @@ function changeSize() {
 
 /* container settings */
 container.classList.add('container');
-container.style.width = container.style.height = `${pad}px`;
-container.style.display = 'flex';
-container.style.flexWrap = 'wrap';
 
 
 createDivs();
