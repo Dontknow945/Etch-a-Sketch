@@ -6,6 +6,7 @@ const body = document.querySelector('body');
 const normal = document.querySelector('.normal');
 const rainbow = document.querySelector('.rainbow');
 const shadow = document.querySelector('.shadow');
+const erase = document.querySelector('.erase');
 const clrbtn = document.querySelector('.clear');
 const size_range = document.querySelector('#size-range');
 const srlabel = document.querySelector('#srlabel');
@@ -39,6 +40,9 @@ function switchColor(square) {
             return 'black';
         case 'shadow':
             return getDarkerColor(square);
+        case 'erase':
+            colors[square.id] = 'transparent';
+            return 'transparent';
         default:
             return 'black';
     }
@@ -84,6 +88,9 @@ function clearColor() {
     pixels.forEach(element => {
         element.style.backgroundColor = 'transparent';
     });
+    colors.forEach(element => {
+        element = 'transparent';
+    });
 }
 
 function changeSize() {
@@ -107,5 +114,6 @@ body.appendChild(container);
 normal.addEventListener('click', () => {color = 'normal'});
 rainbow.addEventListener('click', () => {color = 'rainbow'});
 shadow.addEventListener('click', () => {color = 'shadow'});
+erase.addEventListener('click', () => {color = 'erase'});
 clrbtn.addEventListener('click', clearColor);
 size_range.addEventListener('change', changeSize);
