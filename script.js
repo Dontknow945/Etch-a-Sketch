@@ -24,7 +24,6 @@ function createDivs() {
             pixels[i*size+j].classList.add('squares');
             pixels[i*size+j].id = i*size+j;
             container.appendChild(pixels[i*size+j]);
-            pixels[i*size+j].addEventListener('mouseover', changeColor);
             pixels[i*size+j].divColor = 'transparent';
         }
     }
@@ -119,6 +118,8 @@ container.classList.add('container');
 createDivs();
 body.appendChild(container);
 
+body.addEventListener('mouseup', () => {pixels.forEach(element => {element.removeEventListener('mouseenter', changeColor);});});
+body.addEventListener('mousedown', () => {pixels.forEach(element => {element.addEventListener('mouseenter', changeColor);});});
 normal.addEventListener('click', () => {color = 'normal'});
 rainbow.addEventListener('click', () => {color = 'rainbow'});
 shadow.addEventListener('click', () => {color = 'shadow'});
