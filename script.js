@@ -8,11 +8,11 @@ const rainbow = document.querySelector('.rainbow');
 const shadow = document.querySelector('.shadow');
 const erase = document.querySelector('.erase');
 const clrbtn = document.querySelector('.clear');
+const choose = document.querySelector('#choose');
 const size_range = document.querySelector('#size-range');
 const srlabel = document.querySelector('#srlabel');
 const container = document.createElement('div');
 let pixels = [];
-let colors = [];
 
 
 /* functions */
@@ -25,7 +25,7 @@ function createDivs() {
             pixels[i*size+j].id = i*size+j;
             container.appendChild(pixels[i*size+j]);
             pixels[i*size+j].addEventListener('mouseover', changeColor);
-            colors[i*size+j] = 'transparent';
+            pixels[i*size+j].divColor = 'transparent';
         }
     }
 }
@@ -33,16 +33,19 @@ function createDivs() {
 function switchColor(square) {
     switch (color) {
         case 'rainbow':
-            colors[square.id] = getRandomColor();
-            return colors[square.id];
+            square.divColor = getRandomColor();
+            return square.divColor;
         case 'black':
-            colors[square.id] = 'rgb(0, 0, 0)';
+            square.divColor = 'rgb(0, 0, 0)';
             return 'black';
         case 'shadow':
             return getDarkerColor(square);
         case 'erase':
-            colors[square.id] = 'transparent';
+            square.divColor = 'transparent';
             return 'transparent';
+        case 'choose':
+            square.divColor = choose.value;
+            return square.divColor;
         default:
             return 'black';
     }
@@ -62,13 +65,13 @@ function getRandomColor() {
 }
 
 function getDarkerColor(square) {
-    originColor = colors[square.id];
-    bgColor = square.style.backgroundColor;
+    let originColor = square.divColor;
+    let bgColor = square.style.backgroundColor;
     let re = /^rgb/;
     if (!re.test(bgColor)) {
         return bgColor;
     } else {
-        colorString = String(bgColor);
+        let colorString = String(bgColor);
         let bgrgb = colorString.substring(colorString.indexOf('(')+1, colorString.indexOf(')'));
         let [bgr, bgg, bgb] = bgrgb.split(', ');
         let orirgb = originColor.substring(originColor.indexOf('(')+1, originColor.indexOf(')'));
@@ -87,9 +90,7 @@ function getDarkerColor(square) {
 function clearColor() {
     pixels.forEach(element => {
         element.style.backgroundColor = 'transparent';
-    });
-    colors.forEach(element => {
-        element = 'transparent';
+        element.divColor = 'transparent';
     });
 }
 
@@ -116,4 +117,5 @@ rainbow.addEventListener('click', () => {color = 'rainbow'});
 shadow.addEventListener('click', () => {color = 'shadow'});
 erase.addEventListener('click', () => {color = 'erase'});
 clrbtn.addEventListener('click', clearColor);
+choose.addEventListener('click', () => {color = 'choose'});
 size_range.addEventListener('change', changeSize);
