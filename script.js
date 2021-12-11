@@ -30,6 +30,11 @@ function createDivs() {
     }
 }
 
+function changeColor(e) {
+    e.stopPropagation();
+    this.style.backgroundColor = switchColor(this);
+}
+
 function switchColor(square) {
     switch (color) {
         case 'rainbow':
@@ -44,24 +49,26 @@ function switchColor(square) {
             square.divColor = 'transparent';
             return 'transparent';
         case 'choose':
-            square.divColor = choose.value;
+            square.divColor = hexTOrgb(choose.value);
             return square.divColor;
         default:
             return 'black';
     }
 }
 
-function changeColor(e) {
-    e.stopPropagation();
-    this.style.backgroundColor = switchColor(this);
+function hexTOrgb(hex) {
+    hex = String(hex).replace(/[^0-9a-f]/, '');
+    let r = parseInt((hex[0] + hex[1]), 16);
+    let g = parseInt((hex[2] + hex[3]), 16);
+    let b = parseInt((hex[4] + hex[5]), 16);
+    return `rgb(${r}, ${g}, ${b})`;
 }
 
 function getRandomColor() {
     let r = Math.floor(Math.random()*255);
     let g = Math.floor(Math.random()*255);
     let b = Math.floor(Math.random()*255);
-    let result = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-    return result;
+    return `rgb(${r}, ${g}, ${b})`;
 }
 
 function getDarkerColor(square) {
@@ -117,5 +124,5 @@ rainbow.addEventListener('click', () => {color = 'rainbow'});
 shadow.addEventListener('click', () => {color = 'shadow'});
 erase.addEventListener('click', () => {color = 'erase'});
 clrbtn.addEventListener('click', clearColor);
-choose.addEventListener('click', () => {color = 'choose'});
+choose.addEventListener('input', () => {color = 'choose'});
 size_range.addEventListener('change', changeSize);
